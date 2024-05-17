@@ -1,13 +1,11 @@
 import gradio as gr
 import torch
-import requests
-from torchvision import transforms
+from torchvision import models, transforms
 
-# 如果不希望使用缓存，可以取消注释下面这一行
-# torch.hub._validate_not_a_forked_repo=lambda a,b,c: True
-
-# 下载模型，并使用最新的方法加载预训练权重
-model = torch.hub.load('pytorch/vision:v0.6.0', 'resnet18', weights='ResNet18_Weights.DEFAULT').eval()
+# 加载本地预训练模型
+model = models.resnet18()
+model.load_state_dict(torch.load('./resnet18-5c106cde.pth'))
+model.eval()
 
 # 从本地文件加载标签，假设你已经手动下载并保存为 "imagenet_classes.txt"
 with open("imagenet_classes.txt", "r") as f:
